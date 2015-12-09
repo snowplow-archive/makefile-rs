@@ -1,0 +1,8 @@
+[package]
+name = "makefile"
+version = "0.1.0"
+authors = [ "Alex Dean <alex@snowplowanalytics.com>" ]
+
+[dependencies]
+getopts = "0.2"
+nom = "~1.0.0"
