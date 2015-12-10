@@ -5,7 +5,6 @@ extern crate makefile;
 extern crate nom;
 
 use std::str::from_utf8;
-
 use std::collections::HashMap;
 
 use nom::{IResult};
