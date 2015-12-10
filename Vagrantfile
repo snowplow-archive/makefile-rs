@@ -1,7 +1,7 @@
 Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/trusty64"
-  config.vm.hostname = "upgradebot"
+  config.vm.hostname = "makefile-rs"
   config.ssh.forward_agent = true
 
   # Forward guest port 3000 to host port 3000 (for command API)

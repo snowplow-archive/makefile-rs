@@ -11,13 +11,25 @@
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
 
-#![crate_name = "makefile"]
-#![crate_type = "lib"]
+use std::collections::HashMap;
 
-#[macro_use]
-extern crate nom;
+use daggy::Dag;
 
-extern crate daggy;
+pub type MakeVariables = HashMap<String, String>;
 
-pub mod types;
-pub mod parser;
+pub struct MakeRule {
+    // Rule name
+    name: String,
+    // Shell command for rule
+    command: String
+}
+
+pub type MakeDag = Dag<MakeRule, u32, u32>;
+
+pub struct Makefile {
+    // Variables
+	variables: MakeVariables,
+    // DAG of rules
+    dag: MakeDag
+} 
+

@@ -1,8 +1,9 @@
 [package]
 name = "makefile"
 version = "0.1.0"
-authors = [ "Alex Dean <alex@snowplowanalytics.com>" ]
+authors = [ "Alex Dean <support@snowplowanalytics.com>" ]
 
 [dependencies]
 getopts = "0.2"
 nom = "~1.0.0"
+daggy = "0.3.0"
