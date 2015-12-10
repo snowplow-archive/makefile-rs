@@ -18,17 +18,23 @@ use daggy::Dag;
 pub type MakeVariables = HashMap<String, String>;
 
 pub struct MakeRule {
-    // Rule name
-    name: String,
+    // Target TODO: add support for multiple targets
+    target: String,
     // Shell command for rule
-    command: String
+    recipe: String,
+    // Dependencies for this rule
+    prerequisites: Vec<String>
 }
+
+pub type MakeRules = Vec<MakeRule>;
 
 pub type MakeDag = Dag<MakeRule, u32, u32>;
 
 pub struct Makefile {
     // Variables
 	variables: MakeVariables,
+    // Plain vector of rules
+    rules: MakeRules,
     // DAG of rules
     dag: MakeDag
 } 
