@@ -11,30 +11,35 @@
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
 
+extern crate makefile;
+extern crate daggy;
+
 use std::collections::HashMap;
 
 use daggy::Dag;
 
-pub type MakeVariables = HashMap<String, String>;
+use makefile::types::Makefile;
+use makefile::writer::write_to_string;
 
-pub struct MakeRule {
-  // Target TODO: add support for multiple targets
-  target: String,
-  // Shell command for rule
-  recipe: Option<String>,
-  // Dependencies for this rule
-  prerequisites: Vec<String>
+#[test]
+fn write_makefile_test() {
+
+    let mut vars = HashMap::new();
+    vars.insert(String::from("foo"), String::from("bar"));
+    vars.insert(String::from("foo_w_underscore"), String::from("bar2"));
+    vars.insert(String::from("todo_another_test"), String::from("bar3"));
+
+    let makefile = Makefile {
+        variables: vars,
+        rules: Vec::new(),
+        dag: Dag::new()
+    };
+
+    let expected = String::from("todo_another_test='bar3'
+foo='bar'
+foo_w_underscore='bar2'
+");
+
+    let actual = write_to_string(makefile);
+    assert_eq!(actual, expected);
 }
-
-pub type MakeRules = Vec<MakeRule>;
-
-pub type MakeDag = Dag<MakeRule, u32, u32>;
-
-pub struct Makefile {
-  // Variables
-  pub variables: MakeVariables,
-  // Plain vector of rules
-  pub rules: MakeRules,
-  // DAG of rules
-  pub dag: MakeDag
-} 

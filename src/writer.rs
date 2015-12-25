@@ -11,30 +11,16 @@
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
 
-use std::collections::HashMap;
+use std::fmt::format;
 
-use daggy::Dag;
+use types::Makefile;
 
-pub type MakeVariables = HashMap<String, String>;
+pub fn write_to_string(make: Makefile) -> String {
 
-pub struct MakeRule {
-  // Target TODO: add support for multiple targets
-  target: String,
-  // Shell command for rule
-  recipe: Option<String>,
-  // Dependencies for this rule
-  prerequisites: Vec<String>
+    let mut buffer = String::new();
+
+    for (key, val) in make.variables.iter() {
+        buffer.push_str(&format!("{}='{}'\n", key, val));
+    }
+    return buffer;
 }
-
-pub type MakeRules = Vec<MakeRule>;
-
-pub type MakeDag = Dag<MakeRule, u32, u32>;
-
-pub struct Makefile {
-  // Variables
-  pub variables: MakeVariables,
-  // Plain vector of rules
-  pub rules: MakeRules,
-  // DAG of rules
-  pub dag: MakeDag
-} 
