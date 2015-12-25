@@ -19,8 +19,15 @@ pub fn write_to_string(make: Makefile) -> String {
 
     let mut buffer = String::new();
 
+    // Variables
     for (key, val) in make.variables.iter() {
         buffer.push_str(&format!("{}='{}'\n", key, val));
     }
+
+    buffer.push_str("\n");
+
+    // Rules
+    // TODO
+
     return buffer;
 }
