@@ -20,8 +20,13 @@ pub fn write_to_string(make: Makefile) -> String {
     let mut buffer = String::new();
 
     // Variables
-    for (key, val) in make.variables.iter() {
-        buffer.push_str(&format!("{}='{}'\n", key, val));
+    let mut vars: Vec<String> = make.variables
+        .iter()
+        .map(|(name, value)| format!("{}='{}'\n", name, value))
+        .collect();
+    vars.sort();
+    for var in vars {
+        buffer.push_str(&var);
     }
 
     buffer.push_str("\n");

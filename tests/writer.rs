@@ -24,10 +24,13 @@ use makefile::writer::write_to_string;
 #[test]
 fn write_makefile_test() {
 
-    let mut vars = HashMap::new();
-    vars.insert(String::from("foo"), String::from("bar"));
-    vars.insert(String::from("foo_w_underscore"), String::from("bar2"));
-    vars.insert(String::from("todo_another_test"), String::from("bar3"));
+    let vars = {
+        let mut hm = HashMap::new();
+        hm.insert(String::from("foo"), String::from("bar"));
+        hm.insert(String::from("z"), String::from("bar2"));
+        hm.insert(String::from("a"), String::from("bar3"));
+        hm
+    };
 
     let makefile = Makefile {
         variables: vars,
@@ -35,9 +38,10 @@ fn write_makefile_test() {
         dag: Dag::new()
     };
 
-    let expected = String::from("todo_another_test='bar3'
+    let expected = String::from("a='bar3'
 foo='bar'
-foo_w_underscore='bar2'
+z='bar2'
+
 ");
 
     let actual = write_to_string(makefile);
