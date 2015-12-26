@@ -36,7 +36,7 @@ pub fn write_to_string(make: Makefile) -> String {
 
         match rule.recipe {
             Some(r) => buffer.push_str(&format!("\n\t{}", r)),
-            None    => ()
+            _       => ()
         }
         buffer.push_str("\n\n");
     }
