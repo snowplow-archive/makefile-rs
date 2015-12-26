@@ -11,7 +11,7 @@
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
 
-use nom::{IResult,not_line_ending, space, is_alphanumeric, multispace, is_alphabetic, is_digit, ErrorKind};
+use nom::{IResult,not_line_ending, space, is_alphanumeric, multispace, ErrorKind};
 use nom::Err::Position;
 
 //use std::str;

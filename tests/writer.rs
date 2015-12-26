@@ -15,7 +15,6 @@ extern crate makefile;
 extern crate daggy;
 
 use std::collections::HashMap;
-use std::vec;
 
 use daggy::Dag;
 
@@ -34,14 +33,33 @@ fn write_makefile_test() {
     };
 
     let rules = {
-        let a_pr = vec![String::from("sql-runner")];
         let a = MakeRule {
             target: String::from("done"),
             recipe: None,
-            prerequisites: a_pr
+            prerequisites: vec![String::from("sql-runner")]
+        };
+        let b = MakeRule {
+            target: String::from("emr-etl-runner"),
+            recipe: Some(String::from("./emr-etl-runner.sh foo bar")),
+            prerequisites: vec![]
+        };
+        let c = MakeRule {
+            target: String::from("attach-eips"),
+            recipe: Some(String::from("/opt/attach-eips.py test")),
+            prerequisites: vec![]
+        };
+        let d = MakeRule {
+            target: String::from("storage-loader"),
+            recipe: Some(String::from("./storage-loader.sh alpha beta")),
+            prerequisites: vec![String::from("emr-etl-runner"), String::from("attach-eips")]
+        };
+        let e = MakeRule {
+            target: String::from("sql-runner"),
+            recipe: Some(String::from("/opt/sql-runner test")),
+            prerequisites: vec![String::from("storage-loader")]
         };
 
-        vec![a]
+        vec![a, b, c, d, e]
     };
 
     let makefile = Makefile {
@@ -55,6 +73,18 @@ foo='bar'
 z='bar2'
 
 done: sql-runner
+
+emr-etl-runner: 
+\t./emr-etl-runner.sh foo bar
+
+attach-eips: 
+\t/opt/attach-eips.py test
+
+storage-loader: emr-etl-runner attach-eips
+\t./storage-loader.sh alpha beta
+
+sql-runner: storage-loader
+\t/opt/sql-runner test
 
 ");
 

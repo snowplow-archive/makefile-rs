@@ -11,9 +11,7 @@
  * See the Apache License Version 2.0 for the specific language governing permissions and limitations there under.
  */
 
-use std::fmt::format;
-
-use types::{Makefile, MakeRule};
+use types::Makefile;
 
 pub fn write_to_string(make: Makefile) -> String {
 
@@ -35,12 +33,12 @@ pub fn write_to_string(make: Makefile) -> String {
     for rule in make.rules {
         buffer.push_str(&format!("{}: ", rule.target));
         buffer.push_str(&rule.prerequisites.join(" "));
-        buffer.push_str("\n");
+
         match rule.recipe {
-            Some(r) => buffer.push_str(&format!("\t{}", r)),
+            Some(r) => buffer.push_str(&format!("\n\t{}", r)),
             None    => ()
         }
-        buffer.push_str("\n");
+        buffer.push_str("\n\n");
     }
 
     return buffer;
