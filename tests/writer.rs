@@ -15,10 +15,11 @@ extern crate makefile;
 extern crate daggy;
 
 use std::collections::HashMap;
+use std::vec;
 
 use daggy::Dag;
 
-use makefile::types::Makefile;
+use makefile::types::{Makefile, MakeRule};
 use makefile::writer::write_to_string;
 
 #[test]
@@ -32,15 +33,28 @@ fn write_makefile_test() {
         hm
     };
 
+    let rules = {
+        let a_pr = vec![String::from("sql-runner")];
+        let a = MakeRule {
+            target: String::from("done"),
+            recipe: None,
+            prerequisites: a_pr
+        };
+
+        vec![a]
+    };
+
     let makefile = Makefile {
         variables: vars,
-        rules: Vec::new(),
+        rules: rules,
         dag: Dag::new()
     };
 
     let expected = String::from("a='bar3'
 foo='bar'
 z='bar2'
+
+done: sql-runner
 
 ");
 

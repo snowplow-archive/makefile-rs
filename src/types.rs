@@ -19,11 +19,11 @@ pub type MakeVariables = HashMap<String, String>;
 
 pub struct MakeRule {
   // Target TODO: add support for multiple targets
-  target: String,
+  pub target: String,
   // Shell command for rule
-  recipe: Option<String>,
+  pub recipe: Option<String>,
   // Dependencies for this rule
-  prerequisites: Vec<String>
+  pub prerequisites: Vec<String>
 }
 
 pub type MakeRules = Vec<MakeRule>;

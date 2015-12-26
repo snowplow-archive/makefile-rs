@@ -13,7 +13,7 @@
 
 use std::fmt::format;
 
-use types::Makefile;
+use types::{Makefile, MakeRule};
 
 pub fn write_to_string(make: Makefile) -> String {
 
@@ -32,7 +32,16 @@ pub fn write_to_string(make: Makefile) -> String {
     buffer.push_str("\n");
 
     // Rules
-    // TODO
+    for rule in make.rules {
+        buffer.push_str(&format!("{}: ", rule.target));
+        buffer.push_str(&rule.prerequisites.join(" "));
+        buffer.push_str("\n");
+        match rule.recipe {
+            Some(r) => buffer.push_str(&format!("\t{}", r)),
+            None    => ()
+        }
+        buffer.push_str("\n");
+    }
 
     return buffer;
 }
